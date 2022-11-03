@@ -134,6 +134,9 @@ function build_tools_deps() {
   # This is needed for P4Testgen.
   apt install -y libboost-filesystem-dev libboost-system-dev wget zip
 
+  # Install clang-tidy for style checks.
+  apt install -y clang-tidy
+
   # Install a recent version of Z3
   Z3_VERSION="z3-4.8.14"
   Z3_DIST="${Z3_VERSION}-x64-glibc-2.31"

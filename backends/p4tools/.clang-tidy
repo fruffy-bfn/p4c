@@ -13,12 +13,23 @@ misc-*,
 llvm-*,
 google-*,
 -modernize-use-trailing-return-type,
--readability-identifier-length,
+-readability-function-cognitive-complexity,
 -cppcoreguidelines-owning-memory,
+-misc-non-private-member-variables-in-classes,
+-readability-identifier-length,
 -bugprone-easily-swappable-parameters,
 -llvm-header-guard,
 -misc-no-recursion'
-WarningsAsErrors: ''
+# These checks will throw an error, if encountered.
+WarningsAsErrors:
+'clang-diagnostic-*,
+misc-*,
+llvm-*,
+google-*,
+-google-readability-todo,
+modernize-*,
+cppcoreguidelines-*,
+readability-*,'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
 UseColor: true

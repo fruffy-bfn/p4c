@@ -32,6 +32,9 @@ project(P4TOOLS VERSION ${P4C_SEM_VERSION_STRING})
 
 # Build options.
 option(ENABLE_IWYU "Enable checking includes with IWYU" OFF)
+# Enable clang-tidy to force consistent code style across the project.
+# See also: https://gitlab.kitware.com/cmake/cmake/-/issues/18926
+option(CMAKE_RUN_CLANG_TIDY "Run clang-tidy with the compiler." OFF)
 
 # Add cmake directory to our module path. Also add cmake directory from p4c to
 # inherit FindLibGc.
@@ -74,6 +77,21 @@ if(ENABLE_IWYU)
   message("IWYU command: ${iwyu_path}")
 endif()
 
+if(CMAKE_RUN_CLANG_TIDY)
+  message(STATUS "Enabling clang-tidy checks.")
+  message(STATUS "Exporting compile commands for clang-tidy.")
+  set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+  if(CMake_SOURCE_DIR STREQUAL CMake_BINARY_DIR)
+    message(FATAL_ERROR "CMAKE_RUN_CLANG_TIDY requires an out-of-source build!")
+  endif()
+  set(CLANG_TIDY_COMMAND "clang-tidy")
+  execute_process(
+    COMMAND ${CLANG_TIDY_COMMAND} --version
+    OUTPUT_VARIABLE clang_tidy_ver
+  )
+  message(STATUS "clang-tidy: ${clang_tidy_ver}")
+  set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY_COMMAND};)
+endif()
 
 enable_testing()
 set(ENABLE_TESTING ON)

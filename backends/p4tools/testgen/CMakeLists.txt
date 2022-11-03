@@ -139,3 +139,8 @@ endif()
 if(ENABLE_IWYU)
   set_property(TARGET p4testgen PROPERTY CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path})
 endif()
+
+if(CMAKE_RUN_CLANG_TIDY)
+  message(STATUS "Enabling clang-tidy checks for p4testgen.")
+  set_target_properties(p4testgen PROPERTIES CXX_CLANG_TIDY "${CMAKE_CXX_CLANG_TIDY}")
+endif()
